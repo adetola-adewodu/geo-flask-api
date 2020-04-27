@@ -1,0 +1,15 @@
+click==7.1.1
+Flask==1.1.2
+get==2019.4.13
+itsdangerous==1.1.0
+Jinja2==2.11.1
+jsonify==0.5
+MarkupSafe==1.1.1
+pg8000==1.15.1
+post==2019.4.13
+public==2019.4.13
+PyYAML==5.3.1
+query-string==2019.4.13
+request==2019.4.13
+scramp==1.1.1
+Werkzeug==1.0.1
