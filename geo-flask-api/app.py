@@ -60,7 +60,8 @@ def get_nearest():
 @app.route('/airport/<id>')
 def get_airport_by_id(id):
 
-    query = '''select * from airports where id = '{id}';'''.format(id=id)
+    query = '''SELECT 'Feature' as type, row_to_json((SELECT l FROM ( select id,ogc_fid,name, city, country, faa "abbreviation") as l)) 
+            as properties,st_asgeojson(wkb_geometry)::json as geometry from airports where id = '{id}';'''.format(id=id)
     result = {}
     try:
         cursor.execute(query)
@@ -75,7 +76,8 @@ def get_airport_by_id(id):
 @app.route('/airports')
 def get_airports_by_name():
     name = request.args.get('name')
-    query = '''select * from airports where name like '%{name}%';'''.format(name=name)
+    query = '''SELECT 'Feature' as type, row_to_json((SELECT l FROM ( select id,ogc_fid,name, city, country, faa "abbreviation") as l)) 
+            as properties,st_asgeojson(wkb_geometry)::json as geometry from airports where name like '%{name}%';'''.format(name=name)
     results = {}
     try:
         cursor.execute(query)
