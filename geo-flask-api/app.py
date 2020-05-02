@@ -54,11 +54,38 @@ def get_nearest():
     except Exception as err:
         print("Exception: {0}".format(err))
         cursor.execute("ROLLBACK")
-        
-        
+    
     return results
 
+@app.route('/airport/<id>')
+def get_airport_by_id(id):
+
+    query = '''select * from airports where id = '{id}';'''.format(id=id)
+    result = {}
+    try:
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        result = to_geojson(rows)
+    except Exception as err:
+        print("Exception: {0}".format(err))
+        cursor.execute("ROLLBACK")
     
+    return result
+
+@app.route('/airports')
+def get_airports_by_name():
+    name = request.args.get('name')
+    query = '''select * from airports where name like '%{name}%';'''.format(name=name)
+    results = {}
+    try:
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        results = to_geojson(rows)
+    except Exception as err:
+        print("Exception: {0}".format(err))
+        cursor.execute("ROLLBACK")
+    
+    return results
 
 
 if __name__ == '__main__':
